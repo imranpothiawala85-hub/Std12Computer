@@ -2,755 +2,1392 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-  <title>Ch-1: Creating HTML Forms Using KompoZer | Bombay Coaching Classes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>Chapter 2: CSS &amp; JavaScript | Bombay Coaching Classes</title>
   <style>
     :root {
       --primary: #1e3a8a;
       --primary-light: #2563eb;
-      --secondary: #0f766e;
+      --primary-soft: #eff6ff;
+      --accent: #d97706;
       --success: #15803d;
-      --success-bg: #dcfce7;
+      --success-soft: #dcfce7;
       --danger: #b91c1c;
-      --danger-bg: #fee2e2;
+      --danger-soft: #fee2e2;
       --warning: #b45309;
-      --warning-bg: #fef3c7;
-      --bg: #f1f5f9;
-      --card-bg: #ffffff;
-      --text-main: #0f172a;
+      --warning-soft: #fef3c7;
+      --text-main: #1f2937;
       --text-muted: #64748b;
-      --border: #cbd5e1;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
       --radius: 12px;
-      --shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: var(--bg); color: var(--text-main); line-height: 1.5; padding-bottom: 90px; }
-    .header-card { background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #0369a1 100%); color: #ffffff; padding: 22px 16px 18px; text-align: center; box-shadow: var(--shadow); }
-    .header-card h1 { font-size: 1.35rem; font-weight: 800; text-transform: uppercase; margin-bottom: 4px; }
-    .header-card h2 { font-size: 0.95rem; font-weight: 600; color: #bfdbfe; margin-bottom: 6px; }
-    .header-card .instructor { display: inline-block; background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); padding: 4px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; }
-    .header-card .contact-badge { font-size: 0.82rem; color: #fde047; font-weight: 700; }
-    .chapter-banner { background: #0f172a; color: #38bdf8; text-align: center; padding: 8px 12px; font-size: 0.82rem; font-weight: 700; border-bottom: 3px solid #38bdf8; }
-    .container { max-width: 760px; margin: 16px auto; padding: 0 12px; }
-    .tracker-bar { position: sticky; top: 0; z-index: 99; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); padding: 10px 16px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 16px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 700; }
-    .progress-track { flex: 1; height: 8px; background: #e2e8f0; border-radius: 10px; margin: 0 12px; overflow: hidden; }
-    .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #2563eb, #0f766e); border-radius: 10px; transition: width 0.3s ease; }
-    
-    /* RESULT CARD */
-    #result-box { display: none; background: var(--card-bg); border-radius: var(--radius); padding: 20px 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.12); border: 2px solid #2563eb; margin-bottom: 24px; animation: slideDown 0.4s ease; }
-    @keyframes slideDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
-    .result-title { text-align: center; font-size: 1.3rem; font-weight: 800; color: var(--primary); margin-bottom: 4px; }
-    .result-subtitle { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px; }
-    .score-circle { text-align: center; padding: 14px; background: #eff6ff; border-radius: 12px; margin-bottom: 18px; }
-    .score-circle .big-score { font-size: 2.2rem; font-weight: 900; color: #1e3a8a; }
-    .score-circle .score-percentage { font-size: 1rem; font-weight: 700; color: #2563eb; }
-    .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
-    .summary-tile { padding: 12px 6px; border-radius: 12px; text-align: center; font-size: 0.78rem; font-weight: 700; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
-    .tile-correct { background: var(--success-bg); color: var(--success); border: 1.5px solid #86efac; }
-    .tile-incorrect { background: var(--danger-bg); color: var(--danger); border: 1.5px solid #fca5a5; }
-    .tile-unattempted { background: var(--warning-bg); color: var(--warning); border: 1.5px solid #fde047; }
-    .tile-count { font-size: 1.6rem; font-weight: 900; line-height: 1.1; margin-top: 4px; }
-    .result-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-    .btn { padding: 11px 18px; border-radius: 10px; font-size: 0.9rem; font-weight: 700; cursor: pointer; border: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; touch-action: manipulation; }
-    .btn-retake { background: var(--primary); color: #fff; }
-    .btn-print { background: #334155; color: #fff; }
-    .filter-btn-group { display: flex; gap: 6px; width: 100%; margin-top: 14px; overflow-x: auto; padding-bottom: 4px; }
-    .filter-btn { flex: 1; min-width: 80px; padding: 7px 8px; font-size: 0.75rem; font-weight: 700; background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; color: var(--text-main); }
-    .filter-btn.active { background: #1e3a8a; color: white; border-color: #1e3a8a; }
 
-    /* QUESTION CARD */
-    .q-card { background: var(--card-bg); border-radius: var(--radius); padding: 18px 16px; margin-bottom: 16px; box-shadow: var(--shadow); border: 1px solid #e2e8f0; }
-    .q-meta { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 10px; }
-    .q-num { background: #e0f2fe; color: #0369a1; font-size: 0.8rem; font-weight: 800; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
-    .q-exam { background: #fef08a; color: #854d0e; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; border: 1px solid #facc15; text-align: right; line-height: 1.3; }
-    .q-text { font-size: 0.96rem; font-weight: 700; margin-bottom: 14px; color: #1e293b; }
-    .options-group { display: flex; flex-direction: column; gap: 9px; }
-    .option-label { display: flex; align-items: center; padding: 11px 14px; border-radius: 10px; border: 1.5px solid #cbd5e1; background: #f8fafc; cursor: pointer; font-size: 0.9rem; transition: all 0.2s ease; touch-action: manipulation; }
-    .option-label:hover { background: #f1f5f9; border-color: #94a3b8; }
-    .option-label input[type="radio"] { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; border: 2px solid #94a3b8; border-radius: 50%; margin-right: 12px; display: grid; place-content: center; flex-shrink: 0; }
-    .option-label input[type="radio"]::before { content: ""; width: 10px; height: 10px; border-radius: 50%; transform: scale(0); transition: 0.15s transform ease-in-out; background-color: var(--primary); }
-    .option-label input[type="radio"]:checked { border-color: var(--primary); }
-    .option-label input[type="radio"]:checked::before { transform: scale(1); }
-    .option-label.selected { background: #eff6ff; border-color: #3b82f6; }
-    .option-label.is-correct { background: var(--success-bg) !important; border-color: var(--success) !important; color: #14532d !important; font-weight: 700; }
-    .option-label.is-correct::after { content: " ✓ Correct"; margin-left: auto; font-size: 0.75rem; font-weight: 800; color: var(--success); }
-    .option-label.is-wrong { background: var(--danger-bg) !important; border-color: var(--danger) !important; color: #7f1d1d !important; font-weight: 700; }
-    .option-label.is-wrong::after { content: " ✕ Your Choice"; margin-left: auto; font-size: 0.75rem; font-weight: 800; color: var(--danger); }
-    .answer-feedback { display: none; margin-top: 12px; padding: 10px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; }
-    .feedback-correct { background: var(--success-bg); color: var(--success); border-left: 4px solid var(--success); }
-    .feedback-wrong { background: var(--danger-bg); color: var(--danger); border-left: 4px solid var(--danger); }
-    .feedback-skipped { background: var(--warning-bg); color: var(--warning); border-left: 4px solid var(--warning); }
-    .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffff; padding: 12px 16px; box-shadow: 0 -4px 15px rgba(0,0,0,0.08); display: flex; justify-content: center; z-index: 99; border-top: 1px solid #e2e8f0; }
-    .submit-btn { width: 100%; max-width: 760px; background: linear-gradient(135deg, #15803d 0%, #16a34a 100%); color: #ffffff; font-size: 1.05rem; font-weight: 800; padding: 14px 20px; border-radius: 12px; border: none; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35); cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; touch-action: manipulation; }
-    @media print { .tracker-bar, .bottom-bar, .result-actions, .filter-btn-group { display: none !important; } }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 95px;
+    }
+
+    /* Header & Branding */
+    header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #0f172a 100%);
+      color: #ffffff;
+      padding: 22px 14px 18px;
+      text-align: center;
+      border-bottom: 4px solid var(--accent);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .brand-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #fef08a;
+      margin-bottom: 4px;
+    }
+
+    .brand-subtitle {
+      font-size: 0.92rem;
+      font-weight: 600;
+      opacity: 0.95;
+    }
+
+    .brand-teacher {
+      display: inline-block;
+      margin-top: 8px;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .brand-contact {
+      margin-top: 6px;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      font-weight: 600;
+    }
+
+    .brand-contact a {
+      color: #93c5fd;
+      text-decoration: none;
+    }
+
+    .paper-info {
+      margin-top: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      display: inline-block;
+      padding: 5px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #f1f5f9;
+    }
+
+    .container {
+      max-width: 820px;
+      margin: 18px auto;
+      padding: 0 12px;
+    }
+
+    /* Status Card */
+    .status-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .status-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .status-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .status-value {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-light), var(--accent));
+      width: 0%;
+      transition: width 0.25s ease;
+    }
+
+    /* Question Cards */
+    .q-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .q-card.answered {
+      border-left: 5px solid var(--primary-light);
+    }
+
+    .q-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .q-num {
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .q-tag {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-align: right;
+      line-height: 1.3;
+    }
+
+    .q-text {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 14px;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: #ffffff;
+      cursor: pointer;
+      font-size: 0.94rem;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .option-item:active {
+      transform: scale(0.99);
+    }
+
+    .option-item.selected {
+      border-color: var(--primary-light);
+      background: var(--primary-soft);
+      box-shadow: 0 0 0 1px var(--primary-light);
+    }
+
+    .option-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: #334155;
+      font-size: 0.82rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .option-item.selected .option-badge {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .option-label {
+      flex: 1;
+      padding-top: 2px;
+      line-height: 1.4;
+      font-weight: 500;
+    }
+
+    /* Review Colors */
+    .option-item.correct-ans {
+      border-color: var(--success) !important;
+      background: var(--success-soft) !important;
+      color: #064e3b;
+      font-weight: 600;
+    }
+    .option-item.correct-ans .option-badge {
+      background: var(--success) !important;
+      color: #ffffff !important;
+    }
+
+    .option-item.wrong-ans {
+      border-color: var(--danger) !important;
+      background: var(--danger-soft) !important;
+      color: #7f1d1d;
+    }
+    .option-item.wrong-ans .option-badge {
+      background: var(--danger) !important;
+      color: #ffffff !important;
+    }
+
+    .review-status-banner {
+      margin-top: 14px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .status-banner-correct {
+      background: var(--success-soft);
+      color: var(--success);
+      border: 1px solid #86efac;
+    }
+    .status-banner-incorrect {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border: 1px solid #fca5a5;
+    }
+    .status-banner-unattempted {
+      background: var(--warning-soft);
+      color: var(--warning);
+      border: 1px solid #fde68a;
+    }
+
+    /* Bottom Action Bar */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-top: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      z-index: 100;
+      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+      padding-bottom: max(10px, env(safe-area-inset-bottom));
+    }
+
+    .bottom-info {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #334155;
+    }
+    .bottom-info span {
+      color: var(--primary);
+    }
+
+    .btn {
+      padding: 11px 20px;
+      font-size: 0.94rem;
+      font-weight: 700;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 3px 8px rgba(30, 58, 138, 0.35);
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .btn-secondary {
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    /* Result Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 16px;
+    }
+
+    .modal-content {
+      background: #ffffff;
+      border-radius: 16px;
+      max-width: 480px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px 20px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .result-badge {
+      width: 74px;
+      height: 74px;
+      margin: 0 auto 12px;
+      border-radius: 50%;
+      background: #eff6ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      border: 3px solid var(--primary-light);
+    }
+
+    .modal-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .modal-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .score-box {
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 18px;
+    }
+
+    .score-percent {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--primary);
+    }
+
+    .score-text {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #1e3a8a;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .summary-card {
+      padding: 10px 6px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .summary-card.c-green {
+      background: var(--success-soft);
+      border: 1px solid #bbf7d0;
+      color: var(--success);
+    }
+
+    .summary-card.c-red {
+      background: var(--danger-soft);
+      border: 1px solid #fecaca;
+      color: var(--danger);
+    }
+
+    .summary-card.c-amber {
+      background: var(--warning-soft);
+      border: 1px solid #fde68a;
+      color: var(--warning);
+    }
+
+    .summary-num {
+      font-size: 1.5rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .summary-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .filter-tabs {
+      display: flex;
+      background: #f1f5f9;
+      border-radius: 8px;
+      padding: 4px;
+      margin-bottom: 16px;
+      gap: 4px;
+    }
+
+    .filter-tab {
+      flex: 1;
+      border: none;
+      background: none;
+      padding: 8px 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #64748b;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .filter-tab.active {
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .institute-footer {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      border-top: 1px dashed var(--border);
+      padding-top: 12px;
+      margin-top: 14px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
 
-  <header class="header-card">
-    <h1>BOMBAY COACHING CLASSES</h1>
-    <h2>ADAJAN PATIYA, SURAT</h2>
-    <div class="instructor">Created By: IMRAN SIR POTHIAWALA</div>
-    <div class="contact-badge">📞 CONTACT: 9819484931</div>
+  <!-- Top Header with Creator & Coaching Class Details -->
+  <header>
+    <div class="brand-title">BOMBAY COACHING CLASSES</div>
+    <div class="brand-subtitle">ADAJAN PATIYA, SURAT</div>
+    <div class="brand-teacher">Created by: IMRAN SIR POTHIAWALA</div>
+    <div class="brand-contact">Contact: <a href="tel:9819484931">9819484931</a></div>
+    <div>
+      <span class="paper-info">STD 12 • Computer (331 E) • Chapter 2: Cascading Style Sheets &amp; JavaScript</span>
+    </div>
   </header>
-  
-  <div class="chapter-banner">
-    STD - 12 | COMPUTER (331) | CHAPTER 1: CREATING HTML FORMS USING KOMPOZER (63 UNIQUE BOARD QUESTIONS)
-  </div>
 
   <div class="container">
-    <div class="tracker-bar">
-      <span>Attempted: <span id="attempted-count" style="color:var(--primary);">0</span>/<span id="total-stat-count">63</span></span>
-      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
-      <span>Left: <span id="left-count" style="color:var(--warning);">63</span></span>
+    <!-- Progress Tracking Card -->
+    <div class="status-card">
+      <div class="status-item">
+        <span class="status-label">Total Unique Questions</span>
+        <span class="status-value" id="totalCount">0</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">Attempted</span>
+        <span class="status-value" id="attemptedCount">0</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">Unattempted</span>
+        <span class="status-value" id="unattemptedCount">0</span>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
     </div>
 
-    <!-- RESULT SUMMARY -->
-    <section id="result-box">
-      <h3 class="result-title">🎓 Test Paper Final Result</h3>
-      <p class="result-subtitle">Bombay Coaching Classes - Imran Sir Pothiawala (9819484931)</p>
-      
-      <div class="score-circle">
-        <div class="big-score" id="res-score">0 / 63</div>
-        <div class="score-percentage" id="res-percent">0% Accuracy</div>
-        <div id="res-remark" style="font-weight:800; font-size:0.9rem; margin-top:4px;"></div>
+    <!-- Review Filter Controls (Visible after submission) -->
+    <div id="reviewFilterBar" style="display: none;">
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="setFilter('all')">All Questions</button>
+        <button class="filter-tab" onclick="setFilter('wrong')">Wrong Only</button>
+        <button class="filter-tab" onclick="setFilter('unattempted')">Unattempted</button>
       </div>
+    </div>
 
-      <div class="summary-grid">
-        <div class="summary-tile tile-correct">
-          <span>✓ CORRECT</span>
-          <span class="tile-count" id="res-correct">0</span>
-        </div>
-        <div class="summary-tile tile-incorrect">
-          <span>✕ INCORRECT</span>
-          <span class="tile-count" id="res-incorrect">0</span>
-        </div>
-        <div class="summary-tile tile-unattempted">
-          <span>⊘ NOT ATTEMPTED</span>
-          <span class="tile-count" id="res-skipped">0</span>
-        </div>
-      </div>
-
-      <div class="result-actions">
-        <button class="btn btn-retake" onclick="resetTest()">🔄 Retake &amp; Jumble Again</button>
-        <button class="btn btn-print" onclick="window.print()">🖨️ Print / Save PDF</button>
-      </div>
-
-      <div class="filter-btn-group">
-        <button class="filter-btn active" onclick="filterReview('all', this)">All (63)</button>
-        <button class="filter-btn" onclick="filterReview('wrong', this)">Incorrect Only</button>
-        <button class="filter-btn" onclick="filterReview('unattempted', this)">Not Attempted Only</button>
-        <button class="filter-btn" onclick="filterReview('correct', this)">Correct Only</button>
-      </div>
-    </section>
-
-    <!-- CONTAINER FOR THE QUESTIONS (NO FORM TAG TO PREVENT NESTED FORM ISSUES) -->
-    <div id="questions-container"></div>
+    <!-- Question Paper Form Container -->
+    <div id="quizContainer"></div>
   </div>
 
-  <div class="bottom-bar" id="submit-bar">
-    <button type="button" class="submit-btn" onclick="submitExam()">📝 Submit Test Paper</button>
+  <!-- Bottom Floating Bar -->
+  <div class="bottom-bar">
+    <div class="bottom-info">
+      Solved: <span id="bottomProgress">0 / 0</span>
+    </div>
+    <div style="display: flex; gap: 8px;">
+      <button class="btn btn-primary" id="submitBtn" onclick="submitTest()">Submit Paper</button>
+      <button class="btn btn-accent" id="retakeBtn" style="display: none;" onclick="restartTest()">Re-Jumble &amp; Retake</button>
+    </div>
+  </div>
+
+  <!-- Result Summary Modal -->
+  <div class="modal-overlay" id="resultModal">
+    <div class="modal-content">
+      <div class="result-badge" id="modalEmoji">🏆</div>
+      <h2 class="modal-title" id="modalTitle">Evaluation Result</h2>
+      <p class="modal-subtitle">Std 12 Computer • Chapter 2 (Darpan 10-Yr Board Papers)</p>
+
+      <div class="score-box">
+        <div class="score-percent" id="modalPercent">0%</div>
+        <div class="score-text" id="modalScoreText">Score: 0 / 0</div>
+      </div>
+
+      <!-- 3-Part Summary -->
+      <div class="summary-grid">
+        <div class="summary-card c-green">
+          <div class="summary-num" id="modalCorrect">0</div>
+          <div class="summary-title">Correct</div>
+        </div>
+        <div class="summary-card c-red">
+          <div class="summary-num" id="modalIncorrect">0</div>
+          <div class="summary-title">Incorrect</div>
+        </div>
+        <div class="summary-card c-amber">
+          <div class="summary-num" id="modalUnattempted">0</div>
+          <div class="summary-title">Unattempted</div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button class="btn btn-primary" onclick="closeModalAndReview()">Review Answers &amp; Solutions</button>
+        <button class="btn btn-secondary" onclick="restartTest()">Re-Jumble &amp; Solve Again</button>
+      </div>
+
+      <div class="institute-footer">
+        <strong>BOMBAY COACHING CLASSES</strong><br>
+        Adajan Patiya, Surat • Imran Sir Pothiawala (9819484931)
+      </div>
+    </div>
   </div>
 
   <script>
-    // HELPER TO ESCAPE HTML TAGS SAFELY
-    function escapeHTML(str) {
-      if (!str) return '';
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
-
-    // ALL 63 DEDUPLICATED QUESTIONS WITH MULTI-YEAR BOARD EXAM CITATIONS
-    const masterQuestions = [
+    /* Complete DE-DUPLICATED Question Bank for Chapter 2
+       - Every question is unique
+       - Exactly 4 options for each question
+       - Month & Year tags list all papers where the question was asked
+    */
+    const rawQuestions = [
       {
-        q: "What is the full form of IDE ?",
-        o: ["Integrated Development Environment", "International Development Environment", "Indian Development Environment", "Integrated Document Environment"],
-        a: 0,
-        exam: "March 2016, March 2019, March 2024"
+        q: "Which of the following allows specifying styles for the visual elements of the website?",
+        options: ["Cascading Style Sheets (CSS)", "Web Page", "Animation", "Form"],
+        ans: 0,
+        tag: "April 2015, March 2019, October 2020, March 2025, March 2026"
       },
       {
-        q: "Which of the following softwares are examples of open source IDEs ?",
-        o: ["KompoZer", "Eclipse", "JBuilder", "All of above"],
-        a: 3,
-        exam: "April 2015, March 2017, March 2026"
+        q: "What is called when all browsers are split into different parts or objects that can be accessed using JavaScript?",
+        options: ["Browser Object Model", "Browser Object Menu", "Browser Oriented Model", "Browser Oriented Menu"],
+        ans: 0,
+        tag: "April 2015"
       },
       {
-        q: "Which of the following is NOT an example of an open source IDE ?",
-        o: ["KompoZer", "Eclipse", "gedit", "Netbeans"],
-        a: 2,
-        exam: "October 2020, July 2021, March 2023, March 2025"
+        q: "In the JavaScript statement 'document.write(\"Hello Students\")' or 'document.write(\"INDIA\")', which of the following is a method?",
+        options: ["write", "document", "Hello Students", "INDIA"],
+        ans: 0,
+        tag: "April 2015, March 2023, March 2024"
       },
       {
-        q: "What does WYSIWYG stand for ?",
-        o: ["When You See Is When You Get", "What You See Is When You Get", "What You See Is What You Get", "When You See Is What You Get"],
-        a: 2,
-        exam: "March 2026"
+        q: "How is the general syntax of CSS defined?",
+        options: ["Selector {Property: Value}", "Selector [Property: Value)", "Selector (Value: Property)", "Selector <property: Value>"],
+        ans: 0,
+        tag: "April 2015, July 2021"
       },
       {
-        q: "Which of the following provides a web page editor with a simple graphical interface 'WYSIWYG'?",
-        o: ["Site Manager", "Composition Toolbar", "KompoZer", "Status Bar"],
-        a: 2,
-        exam: "July 2021, March 2022"
+        q: "Which of the following is a scripting language that allows adding programming and interactivity to web pages?",
+        options: ["JavaScript", "HTML", "CSS", "Action Script"],
+        ans: 0,
+        tag: "April 2015, March 2024, March 2026"
       },
       {
-        q: "Which website is used to download Kompozer free of cost?",
-        o: ["www.kompozer.com", "www.kompozer.net", "www.kompozer.co.in", "All of these"],
-        a: 1,
-        exam: "March 2016"
+        q: "Which of the following statements is NOT a disadvantage of CSS?",
+        options: [
+          "CSS has less code compared to that in HTML.",
+          "Style cannot be displayed as per the users design.",
+          "Some of the style sheet features are not supported by the browser.",
+          "Both (B) and (C)"
+        ],
+        ans: 0,
+        tag: "April 2015"
       },
       {
-        q: "Which extension is used to save a website / web page file made in Kompozer ?",
-        o: [".html", ".src", ".c", ".komp"],
-        a: 0,
-        exam: "April 2015, March 2016"
+        q: "In web pages, what can be controlled by using the methods and properties of document object?",
+        options: ["Web Page", "Web Browser", "Document", "All of these"],
+        ans: 0,
+        tag: "April 2015, October 2020"
       },
       {
-        q: "In HTML, which element is used to collect different kinds of inputs from the user / implement a form?",
-        o: ["<form>...</form>", "<input>...</input>", "<select>...</select>", "<textarea>...</textarea>"],
-        a: 0,
-        exam: "March 2017, March 2019, March 2025, June 2025, March 2026"
+        q: "What is called a reusable block of code that performs a particular task in JavaScript?",
+        options: ["Function", "Variable", "Event", "If statement"],
+        ans: 0,
+        tag: "April 2015, March 2016, July 2021, March 2024"
       },
       {
-        q: "Which of the following is/are attribute(s) of an HTML form element ?",
-        o: ["Action", "Method", "Both (A) and (B)", "None of these"],
-        a: 2,
-        exam: "March 2019, March 2025"
+        q: "Which option/tab consists of a property associated with the HTML element and corresponding value in CSS rule in KompoZer?",
+        options: ["All of above (General, Aural, Lists)", "General", "Aural", "Lists"],
+        ans: 0,
+        tag: "April 2015"
       },
       {
-        q: "Which attribute of the form element is used to specify where to send the form data when submitted?",
-        o: ["method", "action", "submit", "input"],
-        a: 1,
-        exam: "March 2017, March 2018, March 2019, March 2020, March 2024, March 2025, March 2026"
+        q: "Which JavaScript event occurs when an element such as a radio button or text box becomes inactive?",
+        options: ["blur", "abort", "unload", "load"],
+        ans: 0,
+        tag: "April 2015, March 2024"
       },
       {
-        q: "Which attribute of form specifies the HTTP Method to be used when sending the data ?",
-        o: ["submit", "action", "method", "input"],
-        a: 2,
-        exam: "March 2016, June 2025"
+        q: "From the following, what is used to describe the style of elements in the document and not its content?",
+        options: ["Cascading Style Sheets (CSS)", "Selector", "Declaration", "Animation"],
+        ans: 0,
+        tag: "March 2016, March 2022"
       },
       {
-        q: "Which of the following is the default value for method attribute in an HTML form?",
-        o: ["GET", "POST", "SET", "PUT"],
-        a: 0,
-        exam: "March 2023, March 2025"
+        q: "In the CSS statement 'H1 { color: green }', which part is the Selector?",
+        options: ["H1", "color", "green", "color: green"],
+        ans: 0,
+        tag: "March 2016, March 2025, June 2025"
       },
       {
-        q: "Which HTTP method sends the data as a block through the HTTP transaction and has no restriction on data length?",
-        o: ["GET", "POST", "PUT", "SET"],
-        a: 1,
-        exam: "April 2015, March 2022, March 2024, March 2026"
+        q: "Which of the following is a key advantage of CSS?",
+        options: [
+          "All of these",
+          "To change the style of an element only needs modifications in the CSS file.",
+          "CSS has less code compared to that in HTML.",
+          "CSS makes website designing quick and efficient."
+        ],
+        ans: 0,
+        tag: "March 2016"
       },
       {
-        q: "In an HTML form, which method allows only a limited amount of information to be sent at a time ?",
-        o: ["POST", "GET", "NET", "SET"],
-        a: 1,
-        exam: "July 2021"
+        q: "Using which language does a webpage no longer remain static, but can include coding that allows interactivity with the user, browser control, and dynamic content?",
+        options: ["JavaScript", "HTML", "CSS", "Animation"],
+        ans: 0,
+        tag: "March 2016, March 2020, July 2021, March 2022"
       },
       {
-        q: "Which values are used to specify the method attribute of a form ?",
-        o: ["get and set", "get and post", "get and put", "set and got"],
-        a: 1,
-        exam: "March 2016"
+        q: "From the following, which tag is inserted to include JavaScript code in an HTML webpage?",
+        options: ["<script>...</" + "script>", "<style>...</style>", "<Js>...</Js>", "<title>...</title>"],
+        ans: 0,
+        tag: "March 2016"
       },
       {
-        q: "In an HTML form, which tag is used to implement input elements (like textboxes, checkboxes, radio buttons)?",
-        o: ["<form>...</form>", "<input>...</input>", "<Execute>...</Execute>", "<type>...</type>"],
-        a: 1,
-        exam: "March 2016, October 2020"
+        q: "In JavaScript, which event handler is used for the click event?",
+        options: ["onClick()", "byClick()", "ofClick()", "onClicking()"],
+        ans: 0,
+        tag: "March 2016"
       },
       {
-        q: "Which attribute of the input element specifies the field/control type that is to be created in the form?",
-        o: ["type", "name", "value", "input"],
-        a: 0,
-        exam: "March 2025, March 2026"
+        q: "In JavaScript, which method is used to display content directly in the browser window?",
+        options: ["document.write()", "browser.write()", "script.write()", "method.write()"],
+        ans: 0,
+        tag: "March 2016"
       },
       {
-        q: "Which attribute of the <input> element is used to specify the default value of the field?",
-        o: ["type", "name", "value", "all of above"],
-        a: 2,
-        exam: "April 2015"
+        q: "Which keyword is used to declare a variable in JavaScript?",
+        options: ["var", "Variable", "int", "Java Var"],
+        ans: 0,
+        tag: "March 2016, July 2021, March 2025, June 2025"
       },
       {
-        q: "Generally, in an HTML form which input element is used to select a single item from a given group of items ?",
-        o: ["Checkbox", "Textbox", "Radio button", "Password"],
-        a: 2,
-        exam: "March 2017, July 2021, March 2022, March 2025, March 2026"
+        q: "In Browser Object Model (BOM), which object is on the top of the level?",
+        options: ["window", "document", "form", "button"],
+        ans: 0,
+        tag: "March 2016, March 2018, March 2022, March 2025, March 2026"
       },
       {
-        q: "What must remain the same for all possible options while creating a group of radio buttons ?",
-        o: ["Field Value", "Group Name", "Field Selected option", "Initially Selected option"],
-        a: 1,
-        exam: "March 2020"
+        q: "Which of the following statements is used in JavaScript to return a value in a function?",
+        options: ["return", "function", "select", "send"],
+        ans: 0,
+        tag: "March 2017, March 2019, March 2025, June 2025, March 2026"
       },
       {
-        q: "If we want an option of a radio button or checkbox to be selected by default when the form loads, which option is ticked?",
-        o: ["Initially Checked / Initially Selected", "Select Initially", "Read only", "Advanced edit"],
-        a: 0,
-        exam: "April 2015, March 2018, March 2022"
+        q: "What is used in web pages to improve the design and validate the forms on the client side?",
+        options: ["JavaScript", "'C' language", "Java", "Oracle"],
+        ans: 0,
+        tag: "March 2017, March 2018"
       },
       {
-        q: "Generally, in an HTML form which input element is used to select multiple items from a given group of items ?",
-        o: ["textbox", "radiobutton", "checkbox", "passwordbox"],
-        a: 2,
-        exam: "March 2016, March 2024"
+        q: "Which is the most commonly used built-in numeric function in JavaScript?",
+        options: ["isNaN()", "validateForm()", "alert()", "isNumber()"],
+        ans: 0,
+        tag: "March 2017, June 2025, March 2026"
       },
       {
-        q: "Which type of input element will convert typed characters into a non-readable format (masked password)?",
-        o: ["Password", "Check box", "Text", "Reset"],
-        a: 0,
-        exam: "March 2020, June 2025"
+        q: "In the JavaScript statement 'var x = document.js1.name.value;', which is a variable?",
+        options: ["x", "document", "js1", "name.value"],
+        ans: 0,
+        tag: "March 2017"
       },
       {
-        q: "Which button is used to clear data entered in the form and reset all fields back to default value ?",
-        o: ["Close", "Reset", "Set", "Submit"],
-        a: 1,
-        exam: "March 2023"
+        q: "What is the full form of CSS?",
+        options: ["Cascading Style Sheet", "Cascading Super Sheet", "Cascading Short Style", "Cascade Sine Simple"],
+        ans: 0,
+        tag: "March 2017"
       },
       {
-        q: "In an HTML form, if command <INPUT TYPE='reset' VALUE='label'> is given, what will be the output displayed on the button?",
-        o: ["label", "reset", "submit", "value"],
-        a: 0,
-        exam: "October 2020"
+        q: "In CSS syntax, which part is the HTML element on which the style is applied?",
+        options: ["Selector", "Property", "Value", "Declaration"],
+        ans: 0,
+        tag: "March 2017, July 2021, March 2024"
       },
       {
-        q: "Which element of HTML allows multi-line text input (for comments, report, or long description of a product)?",
-        o: ["<textarea>...</textarea>", "<input>", "<select>", "<textdata>"],
-        a: 0,
-        exam: "April 2015, March 2017, March 2018, March 2019, October 2020, March 2024, March 2026"
+        q: "A CSS rule has how many main parts (Selector and Declaration)?",
+        options: ["2", "1", "3", "4"],
+        ans: 0,
+        tag: "March 2017, March 2023"
       },
       {
-        q: "Which attributes are used with the <textarea> element to specify its size?",
-        o: ["rows, cols", "comment, rows", "columns, cells", "cells, cols"],
-        a: 0,
-        exam: "July 2021, March 2023"
+        q: "From the following, which is NOT an event in JavaScript?",
+        options: ["Alert", "Abort", "Click", "Submit"],
+        ans: 0,
+        tag: "March 2017, March 2023"
       },
       {
-        q: "In KompoZer, which dialog box will open when we click on Form -> Text Area option from the menu?",
-        o: ["Text Area of Form", "Text Area Properties", "Form Field Properties", "Advanced Edit Properties"],
-        a: 1,
-        exam: "March 2022"
+        q: "What should be used to control the web browser window or the web page in JavaScript?",
+        options: ["BOM (Browser Object Model)", "OMG", "BOD", "UML"],
+        ans: 0,
+        tag: "March 2017"
       },
       {
-        q: "Which element is used to create a drop-down list or menu in an HTML form?",
-        o: ["<select>...</select>", "<option>...</option>", "<dropdown>...</dropdown>", "<pulldown>...</pulldown>"],
-        a: 0,
-        exam: "April 2015, July 2021, March 2024, March 2025"
+        q: "Which event occurs when a document or image finishes loading in JavaScript?",
+        options: ["load", "blur", "change", "focus"],
+        ans: 0,
+        tag: "March 2018"
       },
       {
-        q: "In an HTML form, which tag is used to create the individual choices/elements of a drop-down menu?",
-        o: ["<select> ... </select>", "<option>... </option>", "<value> ... </value>", "<input> ... </input>"],
-        a: 1,
-        exam: "March 2026"
+        q: "If the value tested is not a number, what is returned by isNaN() in JavaScript?",
+        options: ["True", "False", "No", "Yes"],
+        ans: 0,
+        tag: "March 2018, March 2022"
       },
       {
-        q: "In KompoZer, which menu option is used to create a drop down menu / selection list (e.g. for field 'City')?",
-        o: ["Insert -> Selection List", "Form -> Selection List", "File -> Selection List", "Edit -> Selection List"],
-        a: 1,
-        exam: "March 2020, March 2023"
+        q: "Which of the following symbols signifies the start and end of a JavaScript block?",
+        options: ["Curly bracket { }", "Round bracket ( )", "Square bracket [ ]", "Semicolon ;"],
+        ans: 0,
+        tag: "March 2018, March 2019, March 2023, March 2026"
       },
       {
-        q: "In KompoZer, which dialog box is opened when Form -> Selection List menu option is selected?",
-        o: ["Selection List Properties", "Select Properties", "Selection List Options", "Selector List"],
-        a: 0,
-        exam: "July 2021"
+        q: "Which part of CSS syntax consists of a property associated with the HTML element used in selector and its corresponding value?",
+        options: ["Declaration", "Property", "Selector", "Value"],
+        ans: 0,
+        tag: "March 2018"
       },
       {
-        q: "In KompoZer, which of the following options is used to create a form ?",
-        o: ["Insert -> Form -> Define Form", "Edit -> Form -> Define Form", "Insert -> Form -> Form Field", "Edit -> Form -> Form Field"],
-        a: 0,
-        exam: "June 2025"
+        q: "From the following, which is a disadvantage of CSS?",
+        options: [
+          "CSS compatibility varies with different browsers.",
+          "Set the style for each element only once.",
+          "Website designing quick and efficient using CSS.",
+          "CSS has less code compared to that in HTML."
+        ],
+        ans: 0,
+        tag: "March 2018, June 2025"
       },
       {
-        q: "Which menu option is used to add an input text field in KompoZer?",
-        o: ["Insert -> Form -> Form Field", "Format -> Form -> Form Field", "View -> Form Field", "Table -> Form Field -> Form"],
-        a: 0,
-        exam: "April 2015"
+        q: "What is the use of the semicolon sign ';' in JavaScript?",
+        options: ["Statement separation", "Statement termination", "Each statement making bold", "None of these"],
+        ans: 0,
+        tag: "March 2018, October 2020"
       },
       {
-        q: "To insert an input 'Text Field' in form of KompoZer, which option is selected in the field type menu of 'Form Field Properties'?",
-        o: ["Submit button", "Check box", "Radio button", "Text"],
-        a: 3,
-        exam: "March 2018"
+        q: "What kind of function is alert() in JavaScript?",
+        options: ["Inbuilt function", "Modular", "User-defined", "Custom function"],
+        ans: 0,
+        tag: "March 2018"
       },
       {
-        q: "In KompoZer, in 'Form Field Properties' dialog box which options are available for the 'Text' field type?",
-        o: ["Form Name, Action URL", "Field Name, Field Value", "Field Name, Initial Value", "Group Name, Field Value"],
-        a: 2,
-        exam: "July 2021"
+        q: "Which of the following is NOT a part of standard CSS syntax?",
+        options: ["Event", "Selector", "Property", "Value"],
+        ans: 0,
+        tag: "March 2019"
       },
       {
-        q: "In KompoZer, which menu-option is used to insert a label in a form ?",
-        o: ["File -> Insert -> Label", "Insert -> Form -> Define Label", "Edit -> Insert Label", "New -> Define Label"],
-        a: 1,
-        exam: "July 2021"
+        q: "In KompoZer, the 'Cascade' (CSS) button is available on which toolbar?",
+        options: ["Composition Toolbar", "Edit mode Toolbar", "Format Toolbar-1", "Format Toolbar-2"],
+        ans: 0,
+        tag: "March 2019, October 2020, June 2025"
       },
       {
-        q: "In KompoZer, which option is NOT in the 'Form Properties' Dialog Box?",
-        o: ["Form Name", "Action URL", "Method", "Field Value"],
-        a: 3,
-        exam: "March 2017"
+        q: "In the 'CSS Stylesheets' dialog box of KompoZer, which tab is used to change font style and color?",
+        options: ["Text", "General", "Background", "Lists"],
+        ans: 0,
+        tag: "March 2019"
       },
       {
-        q: "Which colored outline is seen around a form when inserted in KompoZer ?",
-        o: ["Green colored", "Yellow colored", "Light blue colored", "Red colored"],
-        a: 2,
-        exam: "March 2018, June 2025"
+        q: "In JavaScript, which event occurs when the loading of an image is cancelled?",
+        options: ["abort", "blur", "load", "unload"],
+        ans: 0,
+        tag: "March 2019, July 2021, March 2022, March 2026"
       },
       {
-        q: "Which menu option is used to give a background color to a page / form in KompoZer?",
-        o: ["Edit -> Page colors and Background", "Format -> Page colors and Background", "View -> Page colors and Background", "Insert -> Background"],
-        a: 1,
-        exam: "March 2018, June 2025"
+        q: "In Browser Object Model, elements of a webpage like forms, images, and links are contained within which object?",
+        options: ["document", "window", "history", "location"],
+        ans: 0,
+        tag: "March 2019, March 2020"
       },
       {
-        q: "Which tool of Kompozer is used to give rapid access to files on both local machines and remote servers ?",
-        o: ["Site Manager", "Page Manager", "Document Manager", "None of the above"],
-        a: 0,
-        exam: "March 2016, March 2017"
+        q: "In JavaScript, what value will isNaN(123) return?",
+        options: ["false", "true", "10", "-1"],
+        ans: 0,
+        tag: "March 2019"
       },
       {
-        q: "Which shortcut key is used to close / toggle the Site Manager pane in KompoZer ?",
-        o: ["F5", "F7", "F9", "F12"],
-        a: 2,
-        exam: "March 2018, March 2019, June 2025, March 2026"
+        q: "In the 'CSS Stylesheets' dialog box of KompoZer, which tab is used to specify an image in the background?",
+        options: ["Background", "General", "Borders", "Aurals"],
+        ans: 0,
+        tag: "March 2020, March 2022"
       },
       {
-        q: "In KompoZer, which toolbar is used to create a new file, open a file, save a file, or publish a web page?",
-        o: ["Status Bar", "Edit mode Toolbar", "Format Toolbar-1", "Composition Toolbar"],
-        a: 3,
-        exam: "July 2021"
+        q: "Which of the following makes website designing quick, efficient, and consistent?",
+        options: ["CSS", "JavaScript", "HTML", "Java"],
+        ans: 0,
+        tag: "March 2020"
       },
       {
-        q: "Which toolbar is used to format text, add bullets, numbering, and perform similar formatting operations in KompoZer?",
-        o: ["Composition toolbar", "Format toolbar1", "Format toolbar2", "Both (B) and (C)"],
-        a: 3,
-        exam: "March 2016"
+        q: "In CSS syntax, what is/are included within a Declaration?",
+        options: [
+          "Both Property and its corresponding Value",
+          "HTML element only",
+          "Property only",
+          "Value only"
+        ],
+        ans: 0,
+        tag: "March 2020"
       },
       {
-        q: "Which toolbar is used to give Heading-1 style to the heading of the form in KompoZer?",
-        o: ["Format Toolbar-1", "Format Toolbar-2", "Composition Toolbar", "Status bar"],
-        a: 0,
-        exam: "March 2020"
+        q: "Which of the following statements is/are true for JavaScript?\n(i) JavaScript is used for validation of client-side inputs.\n(ii) Can describe the style of elements in document, not content.\n(iii) After using it, a web page no longer remains static.",
+        options: ["Only (i) and (iii)", "Only (ii) and (iii)", "Only (iii)", "All (i), (ii), and (iii)"],
+        ans: 0,
+        tag: "March 2020"
       },
       {
-        q: "Which of the following toolbars is NOT available in KompoZer ?",
-        o: ["Preview Toolbar", "Format Toolbar-1", "Format Toolbar-2", "Composition Toolbar"],
-        a: 0,
-        exam: "March 2019"
+        q: "Which event occurs when an element such as a button becomes active or receives focus in JavaScript?",
+        options: ["focus", "blur", "click", "select"],
+        ans: 0,
+        tag: "March 2020, October 2020, March 2025"
       },
       {
-        q: "Which menu-option is used to view different toolbars (if not visible) in KompoZer ?",
-        o: ["View -> Show / Hide", "Format Toolbar", "Edit -> Show / Hide", "Insert Toolbar"],
-        a: 0,
-        exam: "March 2018"
+        q: "Which of the following is an event handler for the 'submit' event?",
+        options: ["onsubmit()", "submit()", "function submit()", "onclick()"],
+        ans: 0,
+        tag: "March 2020, July 2021, March 2022"
       },
       {
-        q: "In the KompoZer window, which of the following toolbars is available at the bottom right side of the window?",
-        o: ["Status bar", "Site manager", "Edit mode toolbar", "Composition toolbar"],
-        a: 2,
-        exam: "March 2022"
+        q: "Which of the following will be executed when triggered by an event or called inside source code in JavaScript?",
+        options: ["Function", "Variable", "Event", "If statement"],
+        ans: 0,
+        tag: "March 2020"
       },
       {
-        q: "Which of the following three viewing modes are available in the Edit Mode Toolbar of KompoZer ?",
-        o: ["Netbeans, HTML tags, Preview", "Normal, Elements, Publish", "Normal, HTML Tags, Preview", "Normal, All Tags, Publish"],
-        a: 2,
-        exam: "March 2023"
+        q: "Which statement stops the function from executing and returns the specified value?",
+        options: ["return statement", "if statement", "Event handler", "break statement"],
+        ans: 0,
+        tag: "March 2020"
       },
       {
-        q: "In KompoZer, which view helps those who are familiar with HTML?",
-        o: ["Preview", "Normal", "HTML Tags", "Split"],
-        a: 2,
-        exam: "March 2024"
+        q: "Which of the following is known as special symbols/rules in the syntax of CSS to enclose declarations?",
+        options: ["rules { }", "type", "textarea", "value"],
+        ans: 0,
+        tag: "October 2020"
       },
       {
-        q: "Which colored marker is used to indicate the Start tag for all elements in the HTML tags view of KompoZer?",
-        o: ["Yellow", "Green", "Red", "Blue"],
-        a: 0,
-        exam: "October 2020, March 2023"
+        q: "Which of the following allows us to set the format and styles of a website without changing its underlying structure?",
+        options: ["CSS", "HTML", "C", "Java"],
+        ans: 0,
+        tag: "October 2020"
       },
       {
-        q: "In KompoZer, in which viewing mode of Edit Mode Toolbar do scripts NOT run and links do NOT operate ?",
-        o: ["Preview", "Normal View", "HTML Tags View", "Design"],
-        a: 0,
-        exam: "July 2021"
+        q: "Which of the following can be included in a webpage using JavaScript?",
+        options: [
+          "All of these (User interactivity, browser control, dynamic HTML)",
+          "Allows interactivity with the user",
+          "Control the browser",
+          "Dynamically create HTML content"
+        ],
+        ans: 0,
+        tag: "October 2020"
       },
       {
-        q: "Which of the following tabs displays the HTML source code of only the current selected element in KompoZer?",
-        o: ["Design", "Split", "Source", "Preview"],
-        a: 1,
-        exam: "March 2022, June 2025"
+        q: "Which of the following is known as the event handler for the mouseout event in JavaScript?",
+        options: ["onmouseout()", "onclick()", "onsubmit()", "onfocus()"],
+        ans: 0,
+        tag: "October 2020, June 2025"
       },
       {
-        q: "Which tab shows all details of HTML code and allows editing the source code in KompoZer?",
-        o: ["Design", "Split", "Source", "Normal"],
-        a: 2,
-        exam: "March 2017, March 2020"
+        q: "Which of the following is used to control font types, font colors, pad spaces, margins, and element positions across a website?",
+        options: ["CSS", "JavaScript", "HTML Functions", "Event Handler"],
+        ans: 0,
+        tag: "July 2021"
       },
       {
-        q: "Which tab is used to design and format the web page visually in KompoZer ?",
-        o: ["Design", "Split", "Source", "All of above"],
-        a: 0,
-        exam: "April 2015"
+        q: "Which of the following tabs is NOT available in the 'CSS Stylesheets' dialog box in KompoZer?",
+        options: ["Rules (or Shades / Table)", "Background", "Box", "Text"],
+        ans: 0,
+        tag: "July 2021, March 2022, March 2023, June 2025"
       },
       {
-        q: "Which tabs are shown on the left side of the Page Pane in KompoZer?",
-        o: ["Design, Split, System", "Design, Split, Source", "Design, Show, Source", "Design, Save, Source"],
-        a: 1,
-        exam: "March 2023"
+        q: "Which tab is available in the 'Advanced Property Editor' dialog box of KompoZer?",
+        options: ["JavaScript Events", "Settings", "Action URL", "Text"],
+        ans: 0,
+        tag: "July 2021, March 2024"
       },
       {
-        q: "When we click on any item in the page, in which part of KompoZer does its tag hierarchy/structure appear?",
-        o: ["Composition Toolbar", "Format Toolbar-1", "Status bar", "Format Toolbar-2"],
-        a: 2,
-        exam: "March 2020"
+        q: "Which of the following is generated by the browser due to interaction between the user and the web page?",
+        options: ["Event", "Function", "Variable", "Focus Method"],
+        ans: 0,
+        tag: "July 2021, March 2026"
       },
       {
-        q: "Which of the following will show a blank untitled web page in KompoZer ?",
-        o: ["Edit mode toolbar", "Format Toolbar-1", "Site manager", "Page pane"],
-        a: 3,
-        exam: "March 2020"
+        q: "In JavaScript, what will the statement isNaN(\"Hello\") or isNaN(\"BHARAT\") return?",
+        options: ["True", "False", "Error", "NaN"],
+        ans: 0,
+        tag: "July 2021, March 2023, March 2024"
       },
       {
-        q: "In KompoZer, how many panes can you see in the center of the window?",
-        o: ["1", "2", "3", "4"],
-        a: 1,
-        exam: "October 2020"
+        q: "In the JavaScript statement 'document.write(\"Hello World\");', what is the object name?",
+        options: ["document", "write()", "Hello World", "document.write()"],
+        ans: 0,
+        tag: "March 2022"
       },
       {
-        q: "In KompoZer, when clicked on File -> New option, which option is selected by default in the dialog box?",
-        o: ["A blank template", "A new document based on a template", "A blank document", "All of these"],
-        a: 2,
-        exam: "October 2020"
+        q: "Which object of Browser Object Model (BOM) is created automatically by the browser and represents the window itself?",
+        options: ["window", "frame", "form", "document"],
+        ans: 0,
+        tag: "March 2022"
       },
       {
-        q: "In KompoZer, which dialog box opens up when clicking on File -> Save for a new document?",
-        o: ["Save Page As", "Form Properties", "Form Field Properties", "Page Title"],
-        a: 3,
-        exam: "October 2020"
+        q: "In the 'CSS Stylesheets' dialog box in KompoZer, which button should be clicked after selecting a selector to create a style rule?",
+        options: ["Create Style rule", "Advanced Edit", "General", "Internal stylesheet"],
+        ans: 0,
+        tag: "March 2022, March 2024"
       },
       {
-        q: "When a web page is viewed in the browser, where will the page title be displayed ?",
-        o: ["on Status bar", "on Menu bar", "on Title bar", "on Main window"],
-        a: 2,
-        exam: "March 2019"
+        q: "In the CSS rule 'H1 { color: green }', which part is the Property?",
+        options: ["color", "green", "H1", "{ }"],
+        ans: 0,
+        tag: "March 2023"
       },
       {
-        q: "In KompoZer, which menu option is used to open files that have been opened recently?",
-        o: ["File -> Open", "File -> Recent Pages", "File -> Recently Opened Files", "Open Recent File"],
-        a: 1,
-        exam: "March 2022, March 2024"
+        q: "How many tabs are shown on the right side in the CSS Stylesheet dialog box in KompoZer?",
+        options: ["7", "6", "8", "9"],
+        ans: 0,
+        tag: "March 2023"
+      },
+      {
+        q: "Which company originally developed JavaScript?",
+        options: ["Netscape", "Google", "Wikipedia", "Yahoo"],
+        ans: 0,
+        tag: "March 2023, March 2025, June 2025, March 2026"
+      },
+      {
+        q: "Which built-in function is used to view text in an alert dialog box with an OK button in JavaScript?",
+        options: ["alert()", "msg()", "isNaN()", "dbox()"],
+        ans: 0,
+        tag: "March 2023"
+      },
+      {
+        q: "Which of the following is considered the most central/important object in BOM for accessing and controlling document content?",
+        options: ["document", "window", "parent", "form"],
+        ans: 0,
+        tag: "March 2024"
+      },
+      {
+        q: "Which tab of the 'CSS Stylesheets' dialog box in KompoZer shows the generated CSS code?",
+        options: ["General", "Text", "Sheets and Rules", "Lists"],
+        ans: 0,
+        tag: "March 2024, March 2025"
+      },
+      {
+        q: "In KompoZer, which toolbar has the selection list option to insert a Heading (like Heading 1) in the page?",
+        options: ["Format Toolbar-1", "Format Toolbar-2", "Tools Toolbar", "Composition Toolbar"],
+        ans: 0,
+        tag: "March 2025"
+      },
+      {
+        q: "What is the full form of BOM in web development?",
+        options: ["Browser Object Model", "Browser Option Model", "Browser of Model", "Browser Oriented Model"],
+        ans: 0,
+        tag: "June 2025"
+      },
+      {
+        q: "Which of the following is a simple, lightweight scripting language that does not contain advanced system programming functionalities?",
+        options: ["JavaScript", "HTML", "C", "Java"],
+        ans: 0,
+        tag: "March 2026"
+      },
+      {
+        q: "Which of the following is defined as a container for storing data in JavaScript?",
+        options: ["Variable", "Integer", "Event", "Event Handler"],
+        ans: 0,
+        tag: "March 2026"
+      },
+      {
+        q: "JavaScript code can be placed inside which section(s) of an HTML page?",
+        options: ["Both <head> and <body>", "<head> only", "<body> only", "None of the above"],
+        ans: 0,
+        tag: "March 2026"
+      },
+      {
+        q: "In JavaScript, which method is used to apply focus on a particular element of the form?",
+        options: ["focus()", "alert()", "name()", "browser()"],
+        ans: 0,
+        tag: "March 2026"
       }
     ];
 
     let currentQuestions = [];
-    let userAnswers = {};
+    let studentAnswers = {};
     let isSubmitted = false;
+    let activeFilter = 'all';
 
-    // Fisher-Yates array shuffling
-    function jumbleArray(arr) {
-      const copy = [...arr];
-      for (let i = copy.length - 1; i > 0; i--) {
+    // Fisher-Yates Shuffle Algorithm
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [copy[i], copy[j]] = [copy[j], copy[i]];
+        [arr[i], arr[j]] = [arr[j], arr[i]];
       }
-      return copy;
+      return arr;
     }
 
-    function initExam() {
-      currentQuestions = jumbleArray(masterQuestions);
-      userAnswers = {};
+    // Shuffle options while keeping track of correct answer index
+    function prepareQuestions() {
+      const shuffledQ = shuffleArray(rawQuestions);
+      return shuffledQ.map(q => {
+        const optionsWithMeta = q.options.map((opt, idx) => ({
+          text: opt,
+          isCorrect: idx === q.ans
+        }));
+        const shuffledOpts = shuffleArray(optionsWithMeta);
+        const newAnsIndex = shuffledOpts.findIndex(o => o.isCorrect);
+
+        return {
+          q: q.q,
+          options: shuffledOpts.map(o => o.text),
+          ans: newAnsIndex,
+          tag: q.tag
+        };
+      });
+    }
+
+    function initTest() {
+      currentQuestions = prepareQuestions();
+      studentAnswers = {};
       isSubmitted = false;
+      activeFilter = 'all';
 
-      document.getElementById('total-stat-count').innerText = currentQuestions.length;
-      document.getElementById('left-count').innerText = currentQuestions.length;
-      document.getElementById('attempted-count').innerText = "0";
-      document.getElementById('progress-fill').style.width = "0%";
-      document.getElementById('result-box').style.display = 'none';
-      document.getElementById('submit-bar').style.display = 'flex';
+      document.getElementById('totalCount').textContent = currentQuestions.length;
+      document.getElementById('attemptedCount').textContent = "0";
+      document.getElementById('unattemptedCount').textContent = currentQuestions.length;
+      document.getElementById('progressBar').style.width = "0%";
+      document.getElementById('bottomProgress').textContent = "0 / " + currentQuestions.length;
+      document.getElementById('submitBtn').style.display = 'inline-flex';
+      document.getElementById('retakeBtn').style.display = 'none';
+      document.getElementById('reviewFilterBar').style.display = 'none';
 
-      const container = document.getElementById('questions-container');
+      renderQuestions();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderQuestions() {
+      const container = document.getElementById('quizContainer');
       container.innerHTML = '';
 
       currentQuestions.forEach((item, index) => {
         const card = document.createElement('div');
         card.className = 'q-card';
-        card.id = `qcard-${index}`;
+        card.id = 'qCard_' + index;
 
-        const meta = document.createElement('div');
-        meta.className = 'q-meta';
-        meta.innerHTML = `
-          <span class="q-num">Question ${index + 1} of ${currentQuestions.length}</span>
-          <span class="q-exam">Asked in: ${escapeHTML(item.exam)}</span>
-        `;
-        card.appendChild(meta);
+        const isAnswered = studentAnswers[index] !== undefined;
+        if (isAnswered) card.classList.add('answered');
 
-        // SAFELY INSERT QUESTION TITLE USING TEXTCONTENT
-        const qTitle = document.createElement('div');
-        qTitle.className = 'q-text';
-        qTitle.textContent = item.q;
-        card.appendChild(qTitle);
+        const optLetters = ['A', 'B', 'C', 'D'];
 
-        const optionsGroup = document.createElement('div');
-        optionsGroup.className = 'options-group';
+        let optionsHtml = '';
+        item.options.forEach((opt, optIndex) => {
+          let extraClass = '';
+          if (studentAnswers[index] === optIndex) {
+            extraClass = ' selected';
+          }
 
-        const optionLetters = ['(A)', '(B)', '(C)', '(D)'];
-        item.o.forEach((optText, optIndex) => {
-          const label = document.createElement('label');
-          label.className = 'option-label';
-          label.id = `optlabel-${index}-${optIndex}`;
+          if (isSubmitted) {
+            if (optIndex === item.ans) {
+              extraClass += ' correct-ans';
+            } else if (studentAnswers[index] === optIndex && studentAnswers[index] !== item.ans) {
+              extraClass += ' wrong-ans';
+            }
+          }
 
-          const radio = document.createElement('input');
-          radio.type = 'radio';
-          radio.name = `question_${index}`;
-          radio.value = optIndex;
-          radio.onchange = () => handleOptionSelect(index, optIndex);
-
-          label.appendChild(radio);
-
-          // PURE TEXT NODE FOR OPTIONS GUARANTEES LITERAL TAG RENDERING
-          const textSpan = document.createElement('span');
-          textSpan.textContent = `${optionLetters[optIndex]} ${optText}`;
-          label.appendChild(textSpan);
-
-          optionsGroup.appendChild(label);
+          optionsHtml += `
+            <div class="option-item${extraClass}" onclick="selectOption(${index}, ${optIndex})">
+              <span class="option-badge">${optLetters[optIndex]}</span>
+              <span class="option-label">${escapeHtml(opt)}</span>
+            </div>
+          `;
         });
 
-        card.appendChild(optionsGroup);
+        let reviewBannerHtml = '';
+        if (isSubmitted) {
+          const userAns = studentAnswers[index];
+          if (userAns === undefined) {
+            reviewBannerHtml = `
+              <div class="review-status-banner status-banner-unattempted">
+                ⚠️ Unattempted &bull; Correct Answer: (${optLetters[item.ans]}) ${escapeHtml(item.options[item.ans])}
+              </div>
+            `;
+          } else if (userAns === item.ans) {
+            reviewBannerHtml = `
+              <div class="review-status-banner status-banner-correct">
+                ✓ Correct Answer! Well done.
+              </div>
+            `;
+          } else {
+            reviewBannerHtml = `
+              <div class="review-status-banner status-banner-incorrect">
+                ✗ Incorrect &bull; Correct Answer: (${optLetters[item.ans]}) ${escapeHtml(item.options[item.ans])}
+              </div>
+            `;
+          }
+        }
 
-        const feedback = document.createElement('div');
-        feedback.className = 'answer-feedback';
-        feedback.id = `feedback-${index}`;
-        card.appendChild(feedback);
+        card.innerHTML = `
+          <div class="q-header">
+            <span class="q-num">Q. ${index + 1} of ${currentQuestions.length}</span>
+            <span class="q-tag">Board: ${escapeHtml(item.tag)}</span>
+          </div>
+          <div class="q-text">${escapeHtml(item.q)}</div>
+          <div class="options-grid">
+            ${optionsHtml}
+          </div>
+          ${reviewBannerHtml}
+        `;
 
         container.appendChild(card);
       });
 
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      applyFilter();
     }
 
-    function handleOptionSelect(qIndex, optIndex) {
+    function selectOption(qIndex, optIndex) {
       if (isSubmitted) return;
-      userAnswers[qIndex] = optIndex;
 
-      currentQuestions[qIndex].o.forEach((_, i) => {
-        const label = document.getElementById(`optlabel-${qIndex}-${i}`);
-        if (i === optIndex) label.classList.add('selected');
-        else label.classList.remove('selected');
-      });
+      studentAnswers[qIndex] = optIndex;
 
-      const attempted = Object.keys(userAnswers).length;
-      const total = currentQuestions.length;
-      document.getElementById('attempted-count').innerText = attempted;
-      document.getElementById('left-count').innerText = total - attempted;
-      document.getElementById('progress-fill').style.width = `${(attempted / total) * 100}%`;
+      const card = document.getElementById('qCard_' + qIndex);
+      if (card) {
+        card.classList.add('answered');
+        const optionItems = card.querySelectorAll('.option-item');
+        optionItems.forEach((item, idx) => {
+          if (idx === optIndex) {
+            item.classList.add('selected');
+          } else {
+            item.classList.remove('selected');
+          }
+        });
+      }
+
+      updateProgress();
     }
 
-    function submitExam() {
+    function updateProgress() {
+      const attempted = Object.keys(studentAnswers).length;
       const total = currentQuestions.length;
-      const attempted = Object.keys(userAnswers).length;
+      const unattempted = total - attempted;
+      const percent = Math.round((attempted / total) * 100);
+
+      document.getElementById('attemptedCount').textContent = attempted;
+      document.getElementById('unattemptedCount').textContent = unattempted;
+      document.getElementById('progressBar').style.width = percent + '%';
+      document.getElementById('bottomProgress').textContent = attempted + " / " + total;
+    }
+
+    function submitTest() {
+      const total = currentQuestions.length;
+      const attempted = Object.keys(studentAnswers).length;
       const unattempted = total - attempted;
 
       if (unattempted > 0) {
-        if (!confirm(`You have ${unattempted} unanswered question(s).\n\nDo you want to submit and view your final result?`)) {
-          return;
-        }
+        const confirmSubmit = confirm("You have " + unattempted + " unattempted question(s).\n\nDo you want to submit your test?");
+        if (!confirmSubmit) return;
       }
 
+      evaluateResults();
+    }
+
+    function evaluateResults() {
       isSubmitted = true;
-      document.getElementById('submit-bar').style.display = 'none';
+      let correct = 0;
+      let incorrect = 0;
+      const total = currentQuestions.length;
 
-      let correctCount = 0;
-      let incorrectCount = 0;
-      let skippedCount = 0;
-
-      currentQuestions.forEach((item, qIndex) => {
-        const card = document.getElementById(`qcard-${qIndex}`);
-        const userChoice = userAnswers[qIndex];
-        const correctChoice = item.a;
-        const feedback = document.getElementById(`feedback-${qIndex}`);
-        feedback.style.display = 'block';
-
-        const radios = document.getElementsByName(`question_${qIndex}`);
-        radios.forEach(r => r.disabled = true);
-
-        const correctLabel = document.getElementById(`optlabel-${qIndex}-${correctChoice}`);
-        correctLabel.classList.add('is-correct');
-
-        const escapedCorrect = escapeHTML(item.o[correctChoice]);
-        const escapedUser = userChoice !== undefined ? escapeHTML(item.o[userChoice]) : '';
-
-        if (userChoice === undefined) {
-          skippedCount++;
-          card.setAttribute('data-status', 'unattempted');
-          feedback.className = 'answer-feedback feedback-skipped';
-          feedback.innerHTML = `⚠️ <b>Question Skipped!</b> Correct answer is: <b>${escapedCorrect}</b>`;
-        } else if (userChoice === correctChoice) {
-          correctCount++;
-          card.setAttribute('data-status', 'correct');
-          feedback.className = 'answer-feedback feedback-correct';
-          feedback.innerHTML = `✓ <b>Correct Answer!</b>`;
-        } else {
-          incorrectCount++;
-          card.setAttribute('data-status', 'wrong');
-          const wrongLabel = document.getElementById(`optlabel-${qIndex}-${userChoice}`);
-          wrongLabel.classList.add('is-wrong');
-          feedback.className = 'answer-feedback feedback-wrong';
-          feedback.innerHTML = `✕ <b>Incorrect!</b> You selected <b>${escapedUser}</b>. Correct answer is <b>${escapedCorrect}</b>.`;
+      currentQuestions.forEach((item, index) => {
+        const userAns = studentAnswers[index];
+        if (userAns !== undefined) {
+          if (userAns === item.ans) {
+            correct++;
+          } else {
+            incorrect++;
+          }
         }
       });
 
-      // Populate Result Summary (All 3 requested metrics)
-      document.getElementById('res-correct').innerText = correctCount;
-      document.getElementById('res-incorrect').innerText = incorrectCount;
-      document.getElementById('res-skipped').innerText = skippedCount;
-      document.getElementById('res-score').innerText = `${correctCount} / ${total}`;
+      const unattempted = total - (correct + incorrect);
+      const percentage = Math.round((correct / total) * 100);
 
-      const percentage = Math.round((correctCount / total) * 100);
-      document.getElementById('res-percent').innerText = `${percentage}% Overall Accuracy`;
+      document.getElementById('modalPercent').textContent = percentage + '%';
+      document.getElementById('modalScoreText').textContent = "Total Score: " + correct + " / " + total;
+      document.getElementById('modalCorrect').textContent = correct;
+      document.getElementById('modalIncorrect').textContent = incorrect;
+      document.getElementById('modalUnattempted').textContent = unattempted;
 
-      const remarkEl = document.getElementById('res-remark');
-      if (percentage >= 80) {
-        remarkEl.innerText = "🌟 Excellent Mastery! Keep up the brilliant work.";
-        remarkEl.style.color = "#15803d";
-      } else if (percentage >= 50) {
-        remarkEl.innerText = "👍 Good Attempt! Review your mistakes and retry.";
-        remarkEl.style.color = "#2563eb";
-      } else {
-        remarkEl.innerText = "📖 Revision Required! Review the chapter thoroughly and re-attempt.";
-        remarkEl.style.color = "#b91c1c";
+      let emoji = '🏆';
+      let title = 'Outstanding Performance!';
+      if (percentage < 35) {
+        emoji = '📚';
+        title = 'Needs More Practice!';
+      } else if (percentage < 60) {
+        emoji = '👍';
+        title = 'Good Effort!';
+      } else if (percentage < 80) {
+        emoji = '🌟';
+        title = 'Very Good Score!';
       }
 
-      const resultBox = document.getElementById('result-box');
-      resultBox.style.display = 'block';
-      resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.getElementById('modalEmoji').textContent = emoji;
+      document.getElementById('modalTitle').textContent = title;
+
+      document.getElementById('submitBtn').style.display = 'none';
+      document.getElementById('retakeBtn').style.display = 'inline-flex';
+      document.getElementById('reviewFilterBar').style.display = 'block';
+
+      document.getElementById('resultModal').style.display = 'flex';
+
+      renderQuestions();
     }
 
-    function filterReview(type, btn) {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+    function closeModalAndReview() {
+      document.getElementById('resultModal').style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-      currentQuestions.forEach((_, index) => {
-        const card = document.getElementById(`qcard-${index}`);
-        const status = card.getAttribute('data-status');
-        if (type === 'all' || type === status) {
+    function setFilter(filterType) {
+      activeFilter = filterType;
+      const tabs = document.querySelectorAll('.filter-tab');
+      tabs.forEach(tab => tab.classList.remove('active'));
+
+      if (filterType === 'all') tabs[0].classList.add('active');
+      if (filterType === 'wrong') tabs[1].classList.add('active');
+      if (filterType === 'unattempted') tabs[2].classList.add('active');
+
+      applyFilter();
+    }
+
+    function applyFilter() {
+      if (!isSubmitted) return;
+
+      currentQuestions.forEach((item, index) => {
+        const card = document.getElementById('qCard_' + index);
+        if (!card) return;
+
+        const userAns = studentAnswers[index];
+        const isWrong = userAns !== undefined && userAns !== item.ans;
+        const isUnattempted = userAns === undefined;
+
+        if (activeFilter === 'all') {
           card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
+        } else if (activeFilter === 'wrong') {
+          card.style.display = isWrong ? 'block' : 'none';
+        } else if (activeFilter === 'unattempted') {
+          card.style.display = isUnattempted ? 'block' : 'none';
         }
       });
     }
 
-    function resetTest() {
-      if (confirm("Reset the test with a freshly jumbled 63-question set?")) {
-        initExam();
-      }
+    function restartTest() {
+      document.getElementById('resultModal').style.display = 'none';
+      initTest();
     }
 
-    window.onload = initExam;
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initTest);
+    } else {
+      initTest();
+    }
   </script>
 </body>
 </html>
